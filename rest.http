@@ -1,0 +1,16 @@
+###
+GET http://localhost:5000/api/todos HTTP/1.1
+
+###
+POST http://localhost:5000/api/todos HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "{{$guid}}"
+}
+
+###
+DELETE http://localhost:5000/api/todos/61192a51ab6d2630cc81b1b7 HTTP/1.1
+
+###
+PUT http://localhost:5000/api/todos/61192b0b40d00033f48cba1a HTTP/1.1
