@@ -4,14 +4,24 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/todos", require("./routes/todos"));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.resolve("server", "public")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve("server", "public", "index.html"));
+  });
+}
 
 async function main() {
   try {
@@ -20,7 +30,7 @@ async function main() {
       useUnifiedTopology: true,
     });
     const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => `Server started at ${PORT}...`);
+    app.listen(PORT, () => console.log(`Server started at ${PORT}...`));
   }
   catch(error) {
     console.log(error);
